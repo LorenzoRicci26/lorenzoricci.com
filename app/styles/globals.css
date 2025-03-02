@@ -34,3 +34,150 @@ h4 {
     stroke-dashoffset: 12433.8193359375;
   }
 }
+
+/* Stili migliorati per il carosello Swiper con effetto cards */
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.mySwiper {
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  max-height: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.swiper-slide-active {
+  transform: scale(1);
+  z-index: 10;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+
+/* Stili per le dimensioni delle immagini */
+.swiper-slide .portrait {
+  height: 500px;
+}
+
+.swiper-slide .landscape {
+  height: 400px;
+}
+
+/* Assicurati che le immagini mantengano le proporzioni corrette */
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Nascondi i pulsanti di navigazione predefiniti */
+.swiper-button-prev,
+.swiper-button-next {
+  display: none !important;
+}
+
+/* Stile per l'indicatore di scorrimento */
+.carousel-hint {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Animazione drag gesture */
+.drag-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0.6;
+  animation: dragPulse 2s infinite;
+  z-index: 20;
+}
+
+@keyframes dragPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+/* Pagination personalizzata */
+.swiper-pagination {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: white;
+  opacity: 1;
+  width: 10px;
+  height: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mySwiper {
+    max-width: 300px;
+  }
+  
+  .swiper-slide .portrait {
+    height: 420px;
+  }
+  
+  .swiper-slide .landscape {
+    height: 320px;
+  }
+}

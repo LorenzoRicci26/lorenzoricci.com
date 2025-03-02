@@ -16,14 +16,16 @@ const postField = groq`
   isPublished
 `;
 
-export const profileQuery = groq`*[_type == "profile"]{
+export const profileQuery = groq`*[_type == "profile"][0] {
   _id,
   fullName,
   headline,
-  profileImage {
+  profileImages[] {
+    _key, // Aggiungi _key
     "image": asset->url,
     "lqip": asset->metadata.lqip,
     alt,
+    customSize
   },
   shortBio,
   location,

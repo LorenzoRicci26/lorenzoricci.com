@@ -21,22 +21,43 @@ const profile = {
       validation: (Rule) => Rule.required().min(40).max(80),
     }),
     defineField({
-      name: "profileImage",
-      title: "Profile Image",
-      type: "image",
-      description: "Upload a profile picture",
-      options: {
-        hotspot: true,
-        metadata: ["lqip"], // "blurhash", "palette", etc
-      },
-      fields: [
+      name: "profileImages",
+      title: "Profile Images Gallery",
+      type: "array",
+      description: "Add multiple images for the profile carousel",
+      of: [
         {
-          name: "alt",
-          title: "Alt",
-          type: "string",
-        },
+          type: "image",
+          options: {
+            hotspot: true,
+            metadata: ["lqip"]
+          },
+          fields: [
+            {
+              name: "alt",
+              title: "Alternative Text",
+              type: "string",
+              validation: (Rule) => Rule.required()
+            },
+            {
+              name: "customSize",
+              title: "Custom Size",
+              type: "string",
+              options: {
+                list: [
+                  {title: 'Default', value: 'default'},
+                  {title: 'Portrait', value: 'portrait'},
+                  {title: 'Landscape', value: 'landscape'}
+                ]
+              }
+            }
+          ]
+        }
       ],
-      validation: (rule) => rule.required(),
+      validation: (Rule) => [
+        Rule.min(1).error('At least one image is required'),
+        Rule.max(10).warning('Maximum 10 images allowed')
+      ]
     }),
     defineField({
       name: "shortBio",

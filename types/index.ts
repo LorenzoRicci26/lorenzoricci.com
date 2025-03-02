@@ -21,11 +21,13 @@ export type ProfileType = {
   _id: string;
   fullName: string;
   headline: string;
-  profileImage: {
+  profileImages: [{
+    _key: string;
     image: string;
     lqip: string;
     alt: string;
-  };
+    customSize: string;
+  }];
   shortBio: string;
   email: string;
   fullBio: PortableTextBlock[];

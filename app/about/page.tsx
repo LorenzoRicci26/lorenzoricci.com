@@ -10,6 +10,13 @@ import Usage from "../components/pages/Usage";
 import { Slide } from "../animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
 import RefLink from "../components/shared/RefLink";
+// Import corretti per Swiper con React
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCards } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-cards';
+import { urlFor } from "@/lib/sanity.image";
+import PhotoCarousel from "../components/widgets/PhotoCarousel";
 
 export const metadata: Metadata = {
   title: "About | Lorenzo Ricci",
@@ -27,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 export default async function About() {
-  const profile: ProfileType[] = await sanityFetch({
+  const profile: ProfileType = await sanityFetch({
     query: profileQuery,
     tags: ["profile"],
   });
@@ -35,18 +42,17 @@ export default async function About() {
   return (
     <main className="relative lg:max-w-7xl mx-auto max-w-3xl md:px-16 px-6">
       {profile &&
-        profile.map((data) => (
-          <div key={data._id}>
+          <div key={profile._id}>
             <section className="relative grid lg:grid-cols-custom grid-cols-1 gap-x-6 justify-items-center">
               <div className="order-2 lg:order-none">
                 <Slide>
                   <h1 className="font-incognito font-semibold tracking-tight sm:text-5xl text-3xl lg:leading-tight basis-1/2 mb-8">
-                    Hey there, I&apos;m {data.fullName}.
+                    Hey there, I&apos;m {profile.fullName}.
                   </h1>
 
                   <div className="dark:text-zinc-400 text-zinc-600 leading-relaxed">
                     <PortableText
-                      value={data.fullBio}
+                      value={profile.fullBio}
                       components={CustomPortableText}
                     />
                   </div>
@@ -56,18 +62,11 @@ export default async function About() {
               <aside className="flex flex-col lg:justify-self-center justify-self-start gap-y-8 lg:order-1 order-none mb-12">
                 <Slide delay={0.1}>
                   <div className="sticky top-10">
-                    <Image
-                      className="rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top"
-                      src={data.profileImage.image}
-                      width={400}
-                      height={400}
-                      quality={100}
-                      alt={data.profileImage.alt}
-                      placeholder="blur"
-                      blurDataURL={data.profileImage.lqip}
-                      priority
-                    />
+                    <div className="rounded-2xl mb-4 overflow-hidden max-h-96 min-h-96">
+                      <PhotoCarousel profileImages={profile.profileImages}/>
+                    </div>
 
+                    {/* Il resto del codice rimane invariato */}
                     <div className="flex flex-col text-center gap-y-4">
                       <div className="flex items-center gap-x-3">
                         <RefLink
@@ -77,7 +76,7 @@ export default async function About() {
                           View Résumé <BiLinkExternal className="text-base" />
                         </RefLink>
                         <a
-                          href={`${data.resumeURL}?dl=${data.fullName}-resume.pdf`}
+                          href={`${profile.resumeURL}?dl=${profile.fullName}-resume.pdf`}
                           className="flex items-center justify-center text-center dark:text-primary-color text-secondary-color hover:underline basis-[10%] dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-3 text-lg"
                           title="Download Resume"
                         >
@@ -89,11 +88,11 @@ export default async function About() {
                       </div>
 
                       <a
-                        href={`mailto:${data.email}`}
+                        href={`mailto:${profile.email}`}
                         className="flex items-center gap-x-2 hover:text-primary-color"
                       >
                         <BiEnvelope className="text-lg" />
-                        {data.email}
+                        {profile.email}
                       </a>
                     </div>
                   </div>
@@ -105,7 +104,7 @@ export default async function About() {
             </Slide>
             <Heroes />
           </div>
-        ))}
+        }
     </main>
   );
 }
