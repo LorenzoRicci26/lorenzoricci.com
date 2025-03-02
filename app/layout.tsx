@@ -20,7 +20,7 @@ const options = {
     "Lorenzo Ricci is a Software Developer who is passionate about building solutions and contributing to open source communities",
   url: "https://lorericci.com",
   ogImage:
-    "https://res.cloudinary.com/victoreke/image/upload/v1692635746/victoreke/og.png",
+    "https://res.cloudinary.com/dyd3z9f1h/image/upload/v1740944601/gsvrf2dnlkagmissbzhm.png",
 };
 
 export const metadata: Metadata = {

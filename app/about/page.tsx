@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description:
       "Learn more about my skills, experience and technical background",
     images:
-      "https://res.cloudinary.com/victoreke/image/upload/v1692635746/victoreke/og.png",
+      "https://res.cloudinary.com/dyd3z9f1h/image/upload/v1740944601/gsvrf2dnlkagmissbzhm.png",
   },
 };
 
@@ -41,8 +41,7 @@ export default async function About() {
               <div className="order-2 lg:order-none">
                 <Slide>
                   <h1 className="font-incognito font-semibold tracking-tight sm:text-5xl text-3xl lg:leading-tight basis-1/2 mb-8">
-                    I&apos;m {data.fullName}. I live in {data.location}, where I
-                    build the future.
+                    Hey there, I&apos;m {data.fullName}.
                   </h1>
 
                   <div className="dark:text-zinc-400 text-zinc-600 leading-relaxed">
