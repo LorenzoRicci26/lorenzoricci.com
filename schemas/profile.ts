@@ -96,6 +96,13 @@ const profile = {
       type: "blockContent",
       validation: (rule) => rule.required(),
     }),
+    {
+      name: "skills",
+      title: "Skills",
+      type: "array",
+      description: "Add a list of skills",
+      of: [{ type: "string" }],
+    },
   ],
 };
 

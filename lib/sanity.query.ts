@@ -33,16 +33,15 @@ export const profileQuery = groq`*[_type == "profile"][0] {
   email,
   "resumeURL": resumeURL.asset->url,
   socialLinks,
-  usage
+  usage,
+  skills
 }`;
 
-export const jobQuery = groq`*[_type == "job"] | order(_createdAt desc){
+export const educationQuery = groq`*[_type == "education"] | order(_createdAt desc){
   _id,
   name,
-  jobTitle,
   "logo": logo.asset->url,
   url,
-  description,
   startDate,
   endDate,
 }`;

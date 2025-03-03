@@ -35,15 +35,14 @@ export type ProfileType = {
   resumeURL: string;
   og: string;
   usage: PortableTextBlock[];
+  skills: string[];
 };
 
-export type JobType = {
+export type EducationType = {
   _id: string;
   name: string;
-  jobTitle: string;
   logo: string;
   url: string;
-  description: string;
   startDate: string;
   endDate: string;
 };
