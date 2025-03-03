@@ -51,7 +51,7 @@ export const projectsQuery = groq`*[_type == "project"] | order(_createdAt desc)
   name,
   "slug": slug.current,
   tagline,
-  "logo": logo.asset->url,
+  "logo": logo.asset->url
 }`;
 
 export const singleProjectQuery = groq`*[_type == "project" && slug.current == $slug][0]{
@@ -65,7 +65,13 @@ export const singleProjectQuery = groq`*[_type == "project" && slug.current == $
     alt,
   },
   tagline,
-  description
+  description,
+  contributors,
+  gallery[] {
+    "image": image.asset->url,
+    alt,
+    description
+  }
 }`;
 
 export const postsQuery = groq`*[_type == "Post"] | order(_createdAt desc){

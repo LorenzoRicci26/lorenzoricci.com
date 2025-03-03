@@ -18,98 +18,119 @@ type Props = {
 const fallbackImage: string =
   "https://res.cloudinary.com/victoreke/image/upload/v1692636087/victoreke/projects.png";
 
-// Dynamic metadata for SEO
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const slug = params.project;
-  const project: ProjectType = await sanityFetch({
-    query: singleProjectQuery,
-    tags: ["project"],
-    qParams: { slug },
-  });
-
-  return {
-    title: `${project.name} | Project`,
-    metadataBase: new URL(`https://victoreke.com/projects/${project.slug}`),
-    description: project.tagline,
-    openGraph: {
-      images: project.coverImage
-        ? urlFor(project.coverImage.image).width(1200).height(630).url()
-        : fallbackImage,
-      url: `https://victoreke.com/projects/${project.slug}`,
-      title: project.name,
-      description: project.tagline,
-    },
-  };
-}
-
-export default async function Project({ params }: Props) {
-  const slug = params.project;
-  const project: ProjectType = await sanityFetch({
-    query: singleProjectQuery,
-    tags: ["project"],
-    qParams: { slug },
-  });
-
-  return (
-    <main className="max-w-6xl mx-auto lg:px-16 px-8">
-      <Slide>
-        <div className="max-w-3xl mx-auto">
-          <div className="flex items-start justify-between flex-wrap mb-4">
-            <h1 className="font-incognito font-black tracking-tight sm:text-5xl text-3xl mb-4 max-w-md">
+  export default async function Project({ params }: Props) {
+    const slug = params.project;
+    const project: ProjectType = await sanityFetch({
+      query: singleProjectQuery,
+      tags: ["project"],
+      qParams: { slug },
+    });
+  
+    return (
+      <main className="max-w-3xl mx-auto px-4">
+        {/* Titolo e metadati */}
+        <Slide delay={0.1}>
+          <div className="mb-8 space-y-4">
+            <h1 className="text-4xl font-bold text-zinc-900 dark:text-zinc-100">
               {project.name}
             </h1>
-
-            <div className="flex items-center gap-x-2">
-              <a
-                href={project.projectUrl}
-                rel="noreferrer noopener"
-                target="_blank"
-                className={`flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 ${
-                  !project.projectUrl
-                    ? "cursor-not-allowed opacity-80"
-                    : "cursor-pointer hover:dark:border-zinc-700 hover:border-zinc-200"
-                }`}
-              >
-                <BiLinkExternal aria-hidden="true" />
-                {project.projectUrl ? "Live URL" : "Coming Soon"}
-              </a>
-
-              <a
-                href={project.repository}
-                rel="noreferrer noopener"
-                target="_blank"
-                className={`flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 ${
-                  !project.repository
-                    ? "cursor-not-allowed opacity-80"
-                    : "cursor-pointer hover:dark:border-zinc-700 hover:border-zinc-200"
-                }`}
-              >
-                <BiLogoGithub aria-hidden="true" />
-                {project.repository ? "GitHub" : "No Repo"}
-              </a>
-            </div>
+            <p className="text-xl text-zinc-600 dark:text-zinc-400">
+              {project.tagline}
+            </p>
           </div>
-
-          <div className="relative w-full h-40 pt-[52.5%]">
+        </Slide>
+  
+        {/* Immagine principale */}
+        <Slide delay={0.1}>
+          <div className="mb-12 rounded-lg border dark:border-zinc-800 border-zinc-200 overflow-hidden">
             <Image
-              className="rounded-xl border dark:border-zinc-800 border-zinc-100 object-cover"
-              fill
               src={project.coverImage?.image ?? fallbackImage}
               alt={project.coverImage?.alt ?? project.name}
+              width={1200}
+              height={630}
               quality={100}
-              placeholder={project.coverImage?.lqip ? `blur` : "empty"}
+              className="w-full h-auto"
+              placeholder="blur"
               blurDataURL={project.coverImage?.lqip || ""}
             />
           </div>
-
-          <div className="mt-8 dark:text-zinc-400 text-zinc-600 leading-relaxed">
+        </Slide>
+  
+        {/* Azioni principali */}
+        <Slide delay={0.1}>
+          <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a
+              href={project.projectUrl}
+              className="flex items-center justify-center gap-2 p-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+            >
+              <BiLinkExternal />
+              {project.projectUrl ? "View Project" : "Coming Soon"}
+            </a>
+            <a
+              href={project.repository}
+              className="flex items-center justify-center gap-2 p-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+            >
+              <BiLogoGithub />
+              {project.repository ? "View Code" : "Code Private"}
+            </a>
+          </div>
+        </Slide>
+  
+        {/* Descrizione pulita */}
+        <Slide delay={0.1}>
+          <article className="mb-12 prose prose-zinc dark:prose-invert max-w-none">
             <PortableText
               value={project.description}
               components={CustomPortableText}
             />
+          </article>
+        </Slide>
+  
+        {/* Galleria essenziale */}
+        {project.gallery?.length > 0 && (
+          <Slide delay={0.1}>
+            <div className="space-y-8">
+              {project.gallery.map((item, index) => (
+                <div key={index}>
+                  <hr />
+                  <Slide delay={0.1}>
+                    <div className="space-y-2">
+                      <div className="rounded-lg overflow-hidden border dark:border-zinc-800 border-zinc-200">
+                        <Image
+                          src={item.image}
+                          alt={item.alt || `Project detail ${index + 1}`}
+                          width={1200}
+                          height={800}
+                          quality={100}
+                          className="w-full h-auto"
+                        />
+                      </div>
+                      {item.description && (
+                        <div className="prose prose-zinc dark:prose-invert max-w-none">
+                          <PortableText
+                            value={item.description}
+                            components={CustomPortableText}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </Slide>
+                </div>
+              ))}
+            </div>
+          </Slide>
+        )}
+  
+        {/* Contributori */}
+        <Slide delay={0.1}>
+          <hr />
+          <div className="prose prose-zinc dark:prose-invert max-w-none">
+            <PortableText
+              value={project.contributors}
+              components={CustomPortableText}
+            />
           </div>
-        </div>
-      </Slide>
-    </main>
-  );
-}
+        </Slide>
+      </main>
+    );
+  }

@@ -61,6 +61,12 @@ export type ProjectType = {
     lqip: string;
   };
   description: PortableTextBlock[];
+  contributors: PortableTextBlock[];
+  gallery: {
+    image: string;
+    alt: string | null;
+    description: PortableTextBlock[];
+  }[];
 };
 
 export type PostType = {
